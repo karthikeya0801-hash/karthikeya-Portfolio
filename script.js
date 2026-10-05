@@ -1,0 +1,7 @@
+const body=document.body, themeToggle=document.getElementById('themeToggle'), menuToggle=document.getElementById('menuToggle'), navLinks=document.getElementById('navLinks');
+themeToggle.addEventListener('click',()=>{body.classList.toggle('light');const light=body.classList.contains('light');themeToggle.innerHTML=`<i class="fa-solid ${light?'fa-sun':'fa-moon'}"></i>`;localStorage.setItem('theme',light?'light':'dark')});
+if(localStorage.getItem('theme')==='light'){body.classList.add('light');themeToggle.innerHTML='<i class="fa-solid fa-sun"></i>'}
+menuToggle.addEventListener('click',()=>navLinks.classList.toggle('open'));document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const sections=[...document.querySelectorAll('main section[id]')], links=[...document.querySelectorAll('.nav-links a')];window.addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-innerHeight;document.getElementById('progress').style.width=`${max?scrollY/max*100:0}%`;let current='home';sections.forEach(s=>{if(scrollY>=s.offsetTop-180)current=s.id});links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===`#${current}`))},{passive:true});
+document.getElementById('year').textContent=new Date().getFullYear();
